@@ -12,6 +12,8 @@ import com.reggie.service.SetmealDishService;
 import com.reggie.service.SetmealService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ public class SetmealController {
      * 新增套餐
      * @return
      */
+    @CacheEvict(value = "setmealCache", allEntries = true)
     @PostMapping
     public R<String> save(@RequestBody SetmealDto setmealDto){
         setmealService.saveWithDish(setmealDto);
@@ -81,6 +84,7 @@ public class SetmealController {
      * @param ids
      * @return
      */
+    @CacheEvict(value = "setmealCache", allEntries = true)
     @DeleteMapping
     public R<String> delete(@RequestParam List<Long> ids){
         setmealService.removeWithDish(ids);
@@ -91,6 +95,7 @@ public class SetmealController {
      * 修改套餐状态
      * @return
      */
+    @CacheEvict(value = "setmealCache", allEntries = true)
     @PostMapping("/status/{statusId}")
     public R<String> status(@PathVariable Integer statusId, @RequestParam List<Long> ids){
         List<Setmeal> setmeals = new ArrayList<>();
@@ -120,6 +125,7 @@ public class SetmealController {
      * @param setmeal
      * @return
      */
+    @Cacheable(value = "setmealCache", key = "#setmeal.categoryId+'_'+#setmeal.status")
     @GetMapping("/list")
     public R<List<Setmeal>> list(Setmeal setmeal){
         QueryWrapper<Setmeal> queryWrapper = new QueryWrapper<>();
