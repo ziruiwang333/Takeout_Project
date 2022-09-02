@@ -23,7 +23,7 @@ import java.util.UUID;
 @RequestMapping("/common")
 public class CommonController {
 
-    @Value("${reggie.path}")
+    @Value("${dishPicture.path}")
     private String basePath;
 
     /**

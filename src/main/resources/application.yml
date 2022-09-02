@@ -2,7 +2,7 @@ server:
   port: 8080
 spring:
   application:
-    name: reggie_take_out
+    name: takeout_project
   shardingsphere:
     datasource:
       names: master, slave
@@ -40,7 +40,7 @@ spring:
 #      username: root
 #      password: 123456
   redis:
-    host: 192.168.232.128
+    host: 192.168.232.129
     port: 6379
     password: 123456
     database: 0
@@ -57,5 +57,6 @@ mybatis-plus:
     db-config:
       id-type: ASSIGN_ID
 
-reggie:
-  path: F://Reggie_pictures/
+dishPicture:
+#  path: F://pictures/
+  path: /usr/local/takeout_pictures/
