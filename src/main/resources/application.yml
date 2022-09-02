@@ -58,5 +58,5 @@ mybatis-plus:
       id-type: ASSIGN_ID
 
 dishPicture:
-#  path: F://pictures/
-  path: /usr/local/takeout_pictures/
+  path: F://takeout_pictures/
+#  path: /usr/local/takeout_pictures/

@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -142,6 +143,27 @@ public class SetmealController {
         queryWrapper.eq("setmeal_id", setmeal.getId());
         List<SetmealDish> setmealDishList = setmealDishService.list(queryWrapper);
         return R.success(setmealDishList);
+    }
+
+    /**
+     * 更新套餐信息
+     * @param setmealDto
+     * @return
+     */
+    @Transactional
+    @PutMapping
+    public R<String> update(@RequestBody SetmealDto setmealDto){
+        setmealService.updateById(setmealDto);
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("setmeal_id", setmealDto.getId());
+        setmealDishService.remove(queryWrapper);
+        if(setmealDto.getSetmealDishes()!=null) {
+            for(SetmealDish setmealDish : setmealDto.getSetmealDishes()){
+                setmealDish.setSetmealId(setmealDto.getId());
+            }
+            setmealDishService.saveBatch(setmealDto.getSetmealDishes());
+        }
+        return R.success("更新套餐成功");
     }
 
 }
